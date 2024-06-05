@@ -2,10 +2,10 @@ class Jukebox {
     constructor(albums) {
         this.albums = []
     }
-    addAlbum = function(album) {
+    addAlbum = function (album) {
         this.albums.push(album)
     }
-    favoriteAlbum = function() {
+    favoriteAlbum = function () {
         let max = -1, fav
         for (let i = 0; i < this.albums.length; i++) {
             if (this.albums[i].played > max) {
@@ -23,10 +23,10 @@ class Album {
         this.title = title
         this.played = 0
     }
-    play = function() {
+    play = function () {
         this.played += 1
     }
-    display = function() {
+    display = function () {
         return `${this.artist} : ${this.title}. The album has been played ${this.played} times.`
     }
 }
@@ -40,12 +40,19 @@ jbox.addAlbum(album1)
 jbox.addAlbum(album2)
 jbox.addAlbum(album3)
 
-album1.play()
-album2.play()
-album2.play()
-album2.play()
-album2.play()
-album2.play()
-album3.play()
+const $ = (el) => document.getElementById(el)
 
-console.log(`Your favorite album is: ${jbox.favoriteAlbum()}`)
+for (i in jbox.albums) {
+    let option = document.createElement('option')
+    option.value = i
+    option.innerHTML = `${jbox.albums[i].title}, by ${jbox.albums[i].artist}`
+    $('albums').appendChild(option)
+}
+
+$('play').addEventListener('click', (e) => {
+    let i = $('albums').value
+    jbox.albums[i].play()
+})
+$('showFavorite').addEventListener('click', e => {
+    alert(jbox.favoriteAlbum())
+})
